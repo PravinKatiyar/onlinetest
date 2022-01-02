@@ -14,11 +14,19 @@ import org.springframework.web.filter.GenericFilterBean;
 public class APIFilter extends GenericFilterBean {
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest httpReq = (HttpServletRequest) request;
-		HttpServletResponse httpRes = (HttpServletResponse) response;
-		httpReq = new MyServletRequestWrapper(httpReq);
-		chain.doFilter(httpReq, httpRes);
+		
+		  HttpServletRequest request = (HttpServletRequest) req;
+		    HttpServletResponse response = (HttpServletResponse) res;
+
+		    response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+		    response.setHeader("Access-Control-Allow-Credentials", "true");
+		    response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		    response.setHeader("Access-Control-Max-Age", "3600");
+		    response.setHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+
+		    request = new MyServletRequestWrapper(request);
+		chain.doFilter(request, response);
 	}
 }

@@ -20,6 +20,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.boot.autoconfigure.cache.CacheType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pravinkatiyar.onlinetest.utils.EmailValidation;
@@ -27,7 +28,7 @@ import com.pravinkatiyar.onlinetest.utils.StringPrefixedSequenceIdGenerator;
 
 @Entity
 @Table(name = "users")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class User {
 
 	@Id
@@ -52,7 +53,7 @@ public class User {
 	@Size(min = 2, message = "lastName should have at least 2 characters")
 	private String lastName;
 	
-	@NotEmpty
+	//@NotEmpty
 	private String gender;
 	
 	@NotEmpty
@@ -61,6 +62,7 @@ public class User {
 	
 	@Pattern(regexp = "(^$|[0-9]{10})", message = "phone number should be of 10 digits")
 	private String phone;
+	
 	private boolean enabled = true;
 
 	// user have many roles

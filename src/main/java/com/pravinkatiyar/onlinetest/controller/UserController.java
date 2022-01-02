@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import com.pravinkatiyar.onlinetest.utils.TestInfoEmail;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(origins="*")
 public class UserController {
 
 	@Autowired
@@ -32,15 +34,22 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	@PostMapping("/")
-//	public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-//		Set<UserRole> userRoles=new HashSet<>();
-//		Role role=new Role();
-//		role.setRoleName("ADMIN");
-//		userRoles.add(role);
-//		
-//		userService.createUser(user, userRoles);
-//	}
+	@PostMapping("/")
+	public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+		
+		Set<UserRole> userRoles=new HashSet<>();
+		Role role=new Role();
+		role.setRoleName("ADMIN");
+		
+		UserRole userRole =new UserRole();
+		userRole.setRole(role);
+		userRole.setUser(user);
+		
+		userRoles.add(userRole);
+		
+		User localuser=userService.createUser(user, userRoles);
+		return new ResponseEntity<User>(localuser,HttpStatus.OK);
+	}
 
 	@GetMapping("/")
 	public ResponseEntity<List<User>> getAllUsers() {

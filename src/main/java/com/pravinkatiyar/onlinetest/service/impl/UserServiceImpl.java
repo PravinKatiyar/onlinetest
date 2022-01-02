@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 
 	@Override
-	@Cacheable(value = "one-hour-cache", key = "#user")
+	@Cacheable(value = "ten-second-cache", key = "#user")
 	public User createUser(User user, Set<UserRole> userRoles) {
 		User dbUser = userRepository.findByUsername(user.getUsername());
 		if (dbUser != null) {
