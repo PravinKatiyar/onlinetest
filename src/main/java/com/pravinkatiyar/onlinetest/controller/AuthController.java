@@ -64,7 +64,7 @@ public class AuthController {
 		
 
 	@PostMapping(value="/registration")
-	public ResponseEntity<Response> registration (@RequestBody User user){
+	public ResponseEntity<User> registration (@RequestBody User user){
 		Set<UserRole> userRoles=new HashSet<>();
 		Role role=new Role();
 		role.setRoleName("ADMIN");
@@ -77,11 +77,7 @@ public class AuthController {
 		
 		
 		User dbUser=authService.registerUser(user, userRoles);
-		if(dbUser!=null) {
-			System.out.println(dbUser);
-			return new ResponseEntity<Response>(new Response("User is Registered Successfully"),HttpStatus.OK);
-		} 
-		return new ResponseEntity<Response>(new Response("Something went wrong!!"),HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<User>(dbUser,HttpStatus.OK);
 	}
 
 }
