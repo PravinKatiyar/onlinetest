@@ -11,16 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.boot.autoconfigure.cache.CacheType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pravinkatiyar.onlinetest.utils.EmailValidation;
@@ -28,8 +23,7 @@ import com.pravinkatiyar.onlinetest.utils.StringPrefixedSequenceIdGenerator;
 
 @Entity
 @Table(name = "users")
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-public class User {
+public class User{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
@@ -38,22 +32,10 @@ public class User {
 			@Parameter(name = StringPrefixedSequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "U_"),
 			@Parameter(name = StringPrefixedSequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d") })
 	private String id;
-	
-	@NotEmpty
-	@Size(min = 2, message = "username should have at least 2 characters")
 	private String username;
-	
 	private String password;
-	
-	@NotEmpty
-	@Size(min = 2, message = "firstName should have at least 2 characters")
 	private String firstName;
-	
-	@NotEmpty
-	@Size(min = 2, message = "lastName should have at least 2 characters")
 	private String lastName;
-	
-	//@NotEmpty
 	private String gender;
 	
 	@NotEmpty
@@ -172,4 +154,5 @@ public class User {
 				+ ", lastName=" + lastName + ", gender=" + gender + ", email=" + email + ", phone=" + phone
 				+ ", enabled=" + enabled + "]";
 	}
+
 }

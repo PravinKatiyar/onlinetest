@@ -8,4 +8,6 @@ import com.pravinkatiyar.onlinetest.entity.User;
 public interface UserRepository extends JpaRepository<User, String>{
 
 	public User findByUsername(String userName);
+	public User findByEmailIgnoreCase(String username);
+	public User findUserByEmail(String email);
 }
